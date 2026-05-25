@@ -4,13 +4,18 @@ class TodoList {
   }
 
   addTodo(newTodo) {
-    this.todo.push(newTodo);
+    this.todos.push(newTodo);
   }
 
   removeTodo(id) {
     this.todos = this.todos.filter((todo) => todo.id !== id);
   }
+
+  getAll() {
+    return this.todos;
+  }
 }
+
 class Todo {
   constructor(id, todo, completed) {
     this.id = id;
@@ -30,6 +35,15 @@ class Todo {
 document.addEventListener('DOMContentLoaded', async function () {
   const data = await fetchData();
   const todos = data.todos;
+  const todosList = new TodoList();
+
+  todos.forEach((t) => {
+    const todo = new Todo(t.id, t.todo, t.completed);
+
+    todosList.addTodo(todo);
+  });
+
+  console.log(todosList.getAll());
 });
 
 async function fetchData() {
