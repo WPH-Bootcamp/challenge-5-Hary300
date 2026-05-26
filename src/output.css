@@ -468,6 +468,9 @@
   .bg-\[\#3F9CA1\] {
     background-color: #3F9CA1;
   }
+  .bg-\[\#3f444b\] {
+    background-color: #3f444b;
+  }
   .bg-\[\#202630\] {
     background-color: #202630;
   }
@@ -479,6 +482,15 @@
   }
   .bg-\[\#d6dceb\] {
     background-color: #d6dceb;
+  }
+  .bg-gray-500 {
+    background-color: var(--color-gray-500);
+  }
+  .bg-gray-600 {
+    background-color: var(--color-gray-600);
+  }
+  .bg-gray-700 {
+    background-color: var(--color-gray-700);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
