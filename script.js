@@ -1,4 +1,4 @@
-// DARK MODE
+// ===== DARK MODE =====
 const darkModeButton = document.querySelector('#dark-mode-button');
 const darkIcon = `
 <svg
@@ -48,6 +48,15 @@ darkModeButton.addEventListener('click', function () {
   }
 });
 
+// ===== DATE =====
+const date = document.querySelector('#date');
+const dateNow = new Date();
+const dayName = dateNow.toLocaleDateString('en-US', { weekday: 'long' });
+const monthName = dateNow.toLocaleDateString('en-US', { month: 'long' });
+
+date.innerText = `${dayName}, ${dateNow.getDate()} ${monthName} ${dateNow.getFullYear()}`;
+
+// ===== CLASS ======
 class TodoList {
   constructor() {
     this.todos = [];
