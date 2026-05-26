@@ -110,13 +110,11 @@ const todoList = new TodoList();
 
 // ====== TASK NUMBER ======
 const taskNumber = document.querySelector('#task-number');
-const taskNumberText = document.querySelector('#task-number-text');
 updateTaskNumber();
 
 function updateTaskNumber() {
   const tasks = todoList.getAll().length;
   taskNumber.innerText = tasks;
-  taskNumberText.innerText = tasks > 1 ? 'Tasks' : 'Task';
 }
 
 // ====== ADD TODO ======
@@ -152,7 +150,7 @@ function hideError() {
 
 function updateTodoListUI(todo, id) {
   const todoElement = `
-  <li class="todo flex justify-between items-center px-1 py-2" data-id="${id}">
+  <li class="todo flex justify-between items-center px-1 py-2 hover:bg-[#E8F3F5] hover:dark:bg-[#1F383E]" data-id="${id}">
   <div class="toggle-todo flex gap-2 items-center w-full cursor-pointer">
     <div
       class="mark-todo size-4 flex justify-center items-center rounded-md border cursor-pointer"
