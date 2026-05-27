@@ -101,8 +101,8 @@ class TodoList {
 class Todo {
   constructor(todo, completed, id) {
     this.todo = todo;
-    this.completed = completed ? complete : false;
-    this.id = id ? id : Date.now() + Math.random().toString(10).slice(2);
+    this.completed = completed ? completed : false;
+    this.id = id ? id : Date.now() + Math.random();
   }
 
   toggleTodo() {
@@ -248,7 +248,7 @@ document.addEventListener('click', function (event) {
 
     // 2. Find the todo object that matches the selected toggle element id
     const selectedToggleTodoObject = todoList.todos.find(
-      (todo) => todo.id === selectedToggleTodoElementId
+      (todo) => String(todo.id) === selectedToggleTodoElementId
     );
 
     // 3. Toggle
@@ -274,7 +274,7 @@ document.addEventListener('click', function (event) {
     const selectedDeleteTodoElementId = selectedDeleteTodoElement.dataset.id;
 
     // 2. Delete
-    todoList.deleteTodo(selectedDeleteTodoElementId);
+    todoList.deleteTodo(Number(selectedDeleteTodoElementId));
 
     // 3. Render todo
     renderTodos();
@@ -303,7 +303,7 @@ document.addEventListener('click', function (event) {
 
     // 2. Find the todo object that matches the selected edit element id
     selectedEditTodoObject = todoList.todos.find(
-      (todo) => todo.id === selectedEditTodoElementId
+      (todo) => String(todo.id) === selectedEditTodoElementId
     );
 
     // 3. Fill input with previous todo name
@@ -429,33 +429,54 @@ function updateTodoListUI(todo, id, completed) {
 /* =============================================
       FETCH API 
 ============================================= */
+let startIndex = 25;
+const todosPerLoad = 5;
 
-// document.addEventListener('DOMContentLoaded', async function () {
-//   const data = await fetchData();
-//   const todos = data.todos;
-//   const todosList = new TodoList();
+document.addEventListener('DOMContentLoaded', async function () {
+  // 1. Get data
+  const data = await fetchData();
+  const todos = data.todos;
 
-//   todos.forEach((t) => {
-//     const todo = new Todo(t.id, t.todo, t.completed);
-//     todosList.addTodo(todo);
-//   });
+  // 2. Add visible todos to the todo list
+  const visibleTodos = getVisibleTodos(todos);
 
-//   console.log(todosList.getAll());
-// });
+  visibleTodos.forEach((t) => {
+    const todo = new Todo(t.todo, t.completed, t.id);
+    todoList.addTodo(todo);
+  });
 
-// async function fetchData() {
-//   try {
-//     const res = await fetch('https://dummyjson.com/todo');
-//     if (!res.ok) {
-//       throw new Error(`Status: ${res.status}`);
-//     }
-//     const data = await res.json();
+  // 3. Render todo
+  renderTodos();
 
-//     return data;
-//   } catch (err) {
-//     return err;
-//   }
-// }
+  // 4. Update task number
+  updateTaskNumber();
+
+  // 5. Update incomplete task number
+  updateIncompleteTaskNumber();
+
+  // 6. Update complete task number
+  updateCompleteTaskNumber();
+});
+
+function getVisibleTodos(todos) {
+  const visibleTodos = todos.slice(startIndex, startIndex + todosPerLoad);
+  startIndex = todosPerLoad;
+  return visibleTodos;
+}
+
+async function fetchData() {
+  try {
+    const res = await fetch('https://dummyjson.com/todo');
+    if (!res.ok) {
+      throw new Error(`Status: ${res.status}`);
+    }
+    const data = await res.json();
+
+    return data;
+  } catch (err) {
+    return err;
+  }
+}
 
 /* =============================================
       STORAGE 
