@@ -155,7 +155,7 @@ updateCompleteTaskNumber();
 /* =============================================
       ADD TODO FUNCTIONALITY
 ============================================= */
-const todoInput = document.querySelector('#input-todo');
+const todoInput = document.querySelector('#todo-input');
 const todoAddButton = document.querySelector('#todo-add-button');
 const errorText = document.querySelector('#error-text');
 const todoContainer = document.querySelector('#todo-container');
@@ -369,8 +369,10 @@ function renderTodos() {
     return;
   }
   if (isLoadingData) {
+    todoInput.disabled = true;
+    todoAddButton.disabled = true;
     todoContainer.innerHTML = `
-    <p class="text-center">Loading data...</p>
+    <p class="text-center">Loading data. Please wait...</p>
     `;
     return;
   }
@@ -382,6 +384,8 @@ function renderTodos() {
     return;
   }
 
+  todoInput.disabled = false;
+  todoAddButton.disabled = false;
   todoList.todos.forEach((todo) => {
     updateTodoListUI(todo.todo, todo.id, todo.completed);
   });
